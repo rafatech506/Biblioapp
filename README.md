@@ -7,36 +7,118 @@ API de gestión de biblioteca, usuarios y préstamos de libros desarrollada con 
 1. Instalación de dependencias:
 ```bash
 npm install
-Configuración de variables de entorno:Bashcp .env.example .env
-Ejecutar en modo desarrollo:Bashnpm run start:dev
-Por defecto la API utiliza SQLite y crea la base de datos en data/biblioapp.sqlite. Queda disponible en http://localhost:3000.Configuración de base de datosLa configuración se lee desde el archivo .env.SQLite (Desarrollo por defecto):Fragmento de códigoDB_TYPE=sqlite
+```
+
+2. Configuración de variables de entorno:
+```bash
+cp .env.example .env
+```
+
+3. Ejecutar en modo desarrollo:
+```bash
+npm run start:dev
+```
+
+Por defecto la API utiliza SQLite y crea la base de datos en `data/biblioapp.sqlite`. Queda disponible en `http://localhost:3000`.
+
+---
+
+## Configuración de base de datos
+
+La configuración se lee desde el archivo `.env`.
+
+### SQLite (Desarrollo por defecto):
+```env
+DB_TYPE=sqlite
 DB_DATABASE=data/biblioapp.sqlite
 DB_SYNCHRONIZE=true
 DB_LOGGING=false
-PostgreSQL:Fragmento de códigoDB_TYPE=postgres
+```
+
+### PostgreSQL:
+```env
+DB_TYPE=postgres
 DB_HOST=localhost
 DB_PORT=5432
-DB_USERNAME=biblioapp_user
+DB_USERNAME=biblioapp
 DB_PASSWORD=una_clave_segura
 DB_DATABASE=biblioapp
 DB_SYNCHRONIZE=true
 DB_LOGGING=false
-Endpoints de la API1. Libros (/books)MétodoRutaDescripciónPOST/booksRegistra un nuevo libro.GET/booksLista libros activos (admite filtros por título, autor o disponibilidad).GET/books/:idObtiene la información detallada de un libro activo.PUT/books/:idActualiza los datos de un libro.DELETE/books/:idDesactiva un libro sin eliminarlo de la base de datos.Ejemplo de cuerpo para crear un libro (POST /books):JSON{
+```
+
+---
+
+## Endpoints de la API
+
+### 1. Libros (`/books`)
+
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| **POST** | `/books` | Registra un nuevo libro. |
+| **GET** | `/books` | Lista libros activos (admite filtros por título, autor o disponibilidad). |
+| **GET** | `/books/:id` | Obtiene la información detallada de un libro activo. |
+| **PUT** | `/books/:id` | Actualiza los datos de un libro. |
+| **DELETE** | `/books/:id` | Desactiva un libro sin eliminarlo de la base de datos. |
+
+Ejemplo de cuerpo para crear un libro (`POST /books`):
+```json
+{
   "title": "Cien años de soledad",
   "author": "Gabriel García Márquez",
   "pages": 417,
   "genre": "novela"
 }
-2. Usuarios (/users)MétodoRutaDescripciónPOST/usersRegistra un nuevo usuario en la plataforma.GET/usersLista todos los usuarios registrados.GET/users/:idObtiene la información de un usuario específico.PUT/users/:idActualiza la información del usuario.DELETE/users/:idDesactiva o elimina un usuario.Ejemplo de cuerpo para crear un usuario (POST /users):JSON{
-  "name": "Juan Pérez",
-  "email": "juan.perez@example.com",
-  "phone": "3001234567"
+```
+
+---
+
+### 2. Usuarios (`/users`)
+
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| **POST** | `/users` | Registra un nuevo usuario en la plataforma. |
+| **GET** | `/users` | Lista todos los usuarios registrados. |
+| **GET** | `/users/:id` | Obtiene la información de un usuario específico. |
+| **PUT** | `/users/:id` | Actualiza la información del usuario. |
+| **DELETE** | `/users/:id` | Desactiva o elimina un usuario. |
+
+Ejemplo de cuerpo para crear un usuario (`POST /users`):
+```json
+{
+  "id": "1234567890",
+  "name": "Carlos Tello",
+  "email": "carlos@ejemplo.com",
+  "age": 30,
+  "phone": "+573101234567"
 }
-3. Alquileres / Préstamos (/rentals o /loans)MétodoRutaDescripciónPOST/rentalsRegistra el préstamo de un libro a un usuario.GET/rentalsLista los préstamos activos e históricos.GET/rentals/:idConsulta los detalles de un préstamo por ID.PUT/rentals/:id/returnMarca la devolución del libro prestado.Ejemplo de cuerpo para crear un préstamo (POST /rentals):JSON{
-  "userId": 1,
-  "bookId": 1,
-  "dueDate": "2026-11-01"
+```
+
+---
+
+### 3. Préstamos (`/loans`)
+
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| **POST** | `/loans` | Presta un libro a un usuario. |
+| **GET** | `/loans` | Lista préstamos (filtra por `userId`, `bookId`, `status`). |
+| **GET** | `/loans/:id` | Obtiene un préstamo específico. |
+| **PUT** | `/loans/:id/return` | Registra la devolución del libro. |
+
+Ejemplo de cuerpo para crear un préstamo (`POST /loans`):
+```json
+{
+  "userId": "1234567890",
+  "bookId": "uuid-del-libro"
 }
-Comandos de verificaciónBashnpm run format   # Formatea el código con Prettier
+```
+
+---
+
+## Comandos de verificación
+
+```bash
+npm run format   # Formatea el código con Prettier
 npm run lint     # Revisa errores de estilo y buenas prácticas
 npm run build    # Compila el proyecto en TypeScript
+```
