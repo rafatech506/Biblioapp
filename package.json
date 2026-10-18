@@ -1,7 +1,7 @@
 {
-  "name": "nutrifit-backend",
+  "name": "biblioapp-backend",
   "version": "0.0.1",
-  "description": "Backend base de NutriFit con NestJS",
+  "description": "Backend base de Biblioapp con NestJS",
   "author": "Pontificia Universidad Javeriana Cali",
   "private": true,
   "license": "UNLICENSED",
